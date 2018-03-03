@@ -3,7 +3,13 @@ package io.sada.lmsalestaxes;
 import java.math.BigDecimal;
 
 public class MyApp {
+    private final TaxCalculator taxCalculator;
+
     private OrderItem item;
+
+    public MyApp(){
+        this.taxCalculator = new TaxCalculator();
+    }
 
     public void purchase(int quantity, String product, String unitaryPrice) {
         this.purchase(quantity, product, new BigDecimal(unitaryPrice));
@@ -18,7 +24,7 @@ public class MyApp {
         String product = this.item.getProduct();
         BigDecimal itemPrice = getItemPrice(product, unitaryPrice);
         BigDecimal totalPrice = itemPrice;
-        BigDecimal salesTaxes = getSalesTaxes(product, unitaryPrice);
+        BigDecimal salesTaxes = taxCalculator.getSalesTaxes(product, unitaryPrice);
         return new String[]{
                 "1 " + product + ": " + itemPrice.toString(),
                 "Sales Taxes: " + salesTaxes.toString(),
@@ -26,11 +32,13 @@ public class MyApp {
         };
     }
 
-    private BigDecimal getSalesTaxes(String product, BigDecimal unitaryPrice) {
-        if ("book".equals(product)) {
-            return BigDecimal.ZERO;
-        } else {
-            return new BigDecimal("1.50");
+    private class TaxCalculator {
+        public BigDecimal getSalesTaxes(String product, BigDecimal unitaryPrice) {
+            if ("book".equals(product)) {
+                return BigDecimal.ZERO;
+            } else {
+                return new BigDecimal("1.50");
+            }
         }
     }
 
