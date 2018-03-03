@@ -16,7 +16,7 @@ public class ScenarioTest {
 
     @Test
     public void oneItem() {
-        MyApp app = new MyApp();
+        MyApp app = new MyApp(new TaxCalculator());
 
         app.purchase(1, "book", "12.49");
 
@@ -31,7 +31,7 @@ public class ScenarioTest {
 
     @Property
     public void oneItemAnyPriceIsAlwaysTheTotal(BigDecimal price) {
-        MyApp app = new MyApp();
+        MyApp app = new MyApp(new TaxCalculator());
 
         app.purchase(1, "book", price);
 
@@ -46,7 +46,7 @@ public class ScenarioTest {
 
     @Test
     public void oneTaxedItem() {
-        MyApp app = new MyApp();
+        MyApp app = new MyApp(new TaxCalculator());
 
         app.purchase(1, "music CD", "14.99");
 
