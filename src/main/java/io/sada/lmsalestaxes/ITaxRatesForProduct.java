@@ -1,5 +1,5 @@
 package io.sada.lmsalestaxes;
 
 public interface ITaxRatesForProduct {
-    SalesTax[] getForProduct(OrderItem product);
+    SalesTax getForProduct(OrderItem product);
 }

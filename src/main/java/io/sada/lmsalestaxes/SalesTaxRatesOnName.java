@@ -19,10 +19,8 @@ public class SalesTaxRatesOnName {
 
     public ITaxRatesForProduct create() {
         Map<String,SalesTax> r = new HashMap(rates);
-        ITaxRatesForProduct taxRates = product -> {
-            SalesTax tax = r.getOrDefault(product.getProduct(), defaultTax);
-            return new SalesTax[] { tax };
-        };
+        ITaxRatesForProduct taxRates = product -> r.getOrDefault(product.getProduct(), defaultTax);
         return taxRates;
     }
 }
+

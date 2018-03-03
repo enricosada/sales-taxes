@@ -5,15 +5,15 @@ import java.util.stream.Stream;
 
 public class TaxCalculator implements ITaxCalculator {
 
-    private final ITaxRatesForProduct taxRates;
+    private final ITaxRatesForProduct[] taxRates;
 
-    public TaxCalculator(ITaxRatesForProduct taxRates) {
+    public TaxCalculator(ITaxRatesForProduct... taxRates) {
         this.taxRates = taxRates;
     }
 
     public BigDecimal getSalesTaxes(OrderItem product, BigDecimal price) {
-        SalesTax[] taxRates = this.taxRates.getForProduct(product);
-        return Stream.of(taxRates)
+        return Stream.of(this.taxRates)
+                .map(taxRate -> taxRate.getForProduct(product))
                 .map(taxRate -> taxRate.getAmountFor(price))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
