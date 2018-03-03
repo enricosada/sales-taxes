@@ -2,6 +2,7 @@ package io.sada.lmsalestaxes;
 
 import com.pholser.junit.quickcheck.Property;
 import com.pholser.junit.quickcheck.runner.JUnitQuickcheck;
+import io.sada.lmsalestaxes.tax.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 

@@ -1,7 +1,6 @@
-package io.sada.lmsalestaxes;
+package io.sada.lmsalestaxes.tax;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.math.RoundingMode;
 
 public class SalesTax {

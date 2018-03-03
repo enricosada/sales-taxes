@@ -1,4 +1,7 @@
-package io.sada.lmsalestaxes;
+package io.sada.lmsalestaxes.tax;
+
+import io.sada.lmsalestaxes.OrderItem;
+import io.sada.lmsalestaxes.ProductCategory;
 
 import java.util.stream.Stream;
 

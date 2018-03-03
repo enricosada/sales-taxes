@@ -1,5 +1,7 @@
 package io.sada.lmsalestaxes;
 
+import io.sada.lmsalestaxes.tax.ITaxCalculator;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;

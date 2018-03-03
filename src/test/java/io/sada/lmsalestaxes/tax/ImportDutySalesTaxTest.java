@@ -1,13 +1,13 @@
-package io.sada.lmsalestaxes;
+package io.sada.lmsalestaxes.tax;
 
 import com.pholser.junit.quickcheck.From;
 import com.pholser.junit.quickcheck.Property;
 import com.pholser.junit.quickcheck.generator.Ctor;
 import com.pholser.junit.quickcheck.runner.JUnitQuickcheck;
-import org.junit.Test;
+import io.sada.lmsalestaxes.OrderItem;
+import io.sada.lmsalestaxes.tax.ImportDutySalesTax;
+import io.sada.lmsalestaxes.tax.SalesTax;
 import org.junit.runner.RunWith;
-
-import java.math.BigDecimal;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;

@@ -1,5 +1,9 @@
 package io.sada.lmsalestaxes;
 
+import io.sada.lmsalestaxes.tax.BasicSalesTax;
+import io.sada.lmsalestaxes.tax.ITaxRatesForProduct;
+import io.sada.lmsalestaxes.tax.ImportDutySalesTax;
+import io.sada.lmsalestaxes.tax.TaxCalculator;
 import org.junit.Test;
 
 import static org.junit.Assert.assertArrayEquals;

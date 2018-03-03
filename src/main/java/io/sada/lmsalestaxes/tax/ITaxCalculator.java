@@ -1,4 +1,6 @@
-package io.sada.lmsalestaxes;
+package io.sada.lmsalestaxes.tax;
+
+import io.sada.lmsalestaxes.OrderItem;
 
 import java.math.BigDecimal;
 

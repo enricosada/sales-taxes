@@ -1,7 +1,11 @@
-package io.sada.lmsalestaxes;
+package io.sada.lmsalestaxes.tax;
 
 import com.pholser.junit.quickcheck.Property;
 import com.pholser.junit.quickcheck.runner.JUnitQuickcheck;
+import io.sada.lmsalestaxes.OrderItem;
+import io.sada.lmsalestaxes.ProductCategory;
+import io.sada.lmsalestaxes.tax.BasicSalesTax;
+import io.sada.lmsalestaxes.tax.SalesTax;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 

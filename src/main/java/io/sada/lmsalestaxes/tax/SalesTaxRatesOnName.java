@@ -1,4 +1,4 @@
-package io.sada.lmsalestaxes;
+package io.sada.lmsalestaxes.tax;
 
 import java.util.HashMap;
 import java.util.Map;
