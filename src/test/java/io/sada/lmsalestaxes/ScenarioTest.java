@@ -8,9 +8,11 @@ import org.junit.runner.RunWith;
 import java.math.BigDecimal;
 import java.util.HashMap;
 
+import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assume.assumeThat;
 
 @RunWith(JUnitQuickcheck.class)
 public class ScenarioTest {
@@ -81,6 +83,23 @@ public class ScenarioTest {
 
         assertArrayEquals(new String[]{
                 "1 imported book: 10.00",
+                "Sales Taxes: 0",
+                "Total: 10.00"
+        }, receipt);
+    }
+
+    @Property
+    public void oneImportedItemWithNameVariant(String before, String after) {
+        assumeThat(before + after, not(""));
+
+        MyApp app = createApp();
+
+        app.purchase(1, (before + " imported " + after).trim(), "10.00");
+
+        String[] receipt = app.getReceipt();
+
+        assertArrayEquals(new String[]{
+                "1 imported " + (before + " " + after).trim() + ": 10.00",
                 "Sales Taxes: 0",
                 "Total: 10.00"
         }, receipt);

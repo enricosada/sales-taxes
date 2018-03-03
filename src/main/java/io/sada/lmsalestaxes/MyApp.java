@@ -29,8 +29,17 @@ public class MyApp {
     }
 
     private OrderItem findItem(int quantity, String displayName, BigDecimal unitaryPrice) {
-        boolean isImported = displayName.startsWith("imported ");
-        String productName = isImported? displayName.replace("imported", "").trim() : displayName.trim();
+        boolean isImported = (" " + displayName + " ").contains(" imported ");
+        String productName;
+        if (isImported)
+        {
+            productName = displayName
+                            .replace(" imported ", " ")
+                            .replace("imported ", "")
+                            .trim();
+        }
+        else
+            productName = displayName.trim();
 
         ProductCategory category = productStore.getCategoryOf(productName);
 
