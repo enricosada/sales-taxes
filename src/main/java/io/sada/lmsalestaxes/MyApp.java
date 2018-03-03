@@ -23,14 +23,18 @@ public class MyApp {
     }
 
     public void purchase(int quantity, String displayName, BigDecimal unitaryPrice) {
+        OrderItem item = findItem(quantity, displayName, unitaryPrice);
+
+        this.items.add(item);
+    }
+
+    private OrderItem findItem(int quantity, String displayName, BigDecimal unitaryPrice) {
         boolean isImported = displayName.startsWith("imported ");
         String productName = isImported? displayName.replace("imported", "").trim() : displayName.trim();
 
         ProductCategory category = productStore.getCategoryOf(productName);
 
-        OrderItem item = new OrderItem(quantity, productName, unitaryPrice, isImported, category);
-
-        this.items.add(item);
+        return new OrderItem(quantity, productName, unitaryPrice, isImported, category);
     }
 
     public String[] getReceipt() {
