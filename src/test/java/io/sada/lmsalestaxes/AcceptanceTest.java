@@ -7,14 +7,11 @@ import static org.junit.Assert.assertArrayEquals;
 public class AcceptanceTest {
 
     private MyApp createApp() {
-
-        ITaxRatesForProduct taxRates =
-                new SalesTaxRatesOnName(SalesTax.NO_TAX)
-                        .withProduct("music CD", new SalesTax(10))
-                        .create();
+        ITaxRatesForProduct basicTaxes = new BasicSalesTax(BasicSalesTax.BASIC_TAX, ProductCategory.BOOK, ProductCategory.FOOD, ProductCategory.MEDICAL);
+        ITaxRatesForProduct importDuty = new ImportDutySalesTax(ImportDutySalesTax.IMPORT_DUTY);
 
         ProductStore productStore = new ProductStoreInMemory(new TestDataProductCategories().create());
-        return new MyApp(new TaxCalculator(taxRates), productStore);
+        return new MyApp(new TaxCalculator(basicTaxes, importDuty), productStore);
     }
 
     @Test
