@@ -1,6 +1,7 @@
 package io.sada.lmsalestaxes;
 
 import com.pholser.junit.quickcheck.Property;
+import com.pholser.junit.quickcheck.generator.InRange;
 import com.pholser.junit.quickcheck.runner.JUnitQuickcheck;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,5 +24,12 @@ public class SalesTaxTest {
         SalesTax tax = new SalesTax(10);
         BigDecimal result = tax.getAmountFor(new BigDecimal("14.99"));
         assertEquals(new BigDecimal("1.50"), result);
+    }
+
+    @Test
+    public void rounding() {
+        SalesTax tax = new SalesTax(100);
+        BigDecimal result = tax.getAmountFor(new BigDecimal("0.04"));
+        assertEquals(new BigDecimal("0.05"), result);
     }
 }

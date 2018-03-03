@@ -27,6 +27,7 @@ public class SalesTax {
     }
 
     private BigDecimal applyRounding(BigDecimal amount) {
-        return amount.setScale(2, BigDecimal.ROUND_HALF_UP);
+        BigDecimal result = new BigDecimal(Math.ceil(amount.doubleValue() * 20) / 20);
+        return result.setScale(2, RoundingMode.HALF_UP);
     }
 }
