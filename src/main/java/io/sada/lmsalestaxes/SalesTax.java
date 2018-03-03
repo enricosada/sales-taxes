@@ -22,7 +22,11 @@ public class SalesTax {
             return BigDecimal.ZERO;
         } else {
             BigDecimal amount = new BigDecimal(rate).multiply(price).divide(new BigDecimal(100));
-            return amount.setScale(2, BigDecimal.ROUND_HALF_UP);
+            return applyRounding(amount);
         }
+    }
+
+    private BigDecimal applyRounding(BigDecimal amount) {
+        return amount.setScale(2, BigDecimal.ROUND_HALF_UP);
     }
 }
