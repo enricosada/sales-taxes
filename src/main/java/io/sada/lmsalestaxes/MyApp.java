@@ -1,14 +1,19 @@
 package io.sada.lmsalestaxes;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class MyApp {
     private final ITaxCalculator taxCalculator;
 
-    private OrderItem item;
+    private List<OrderItem> items;
 
     public MyApp(ITaxCalculator taxCalculator){
         this.taxCalculator = taxCalculator;
+        this.items = new ArrayList<>();
     }
 
     public void purchase(int quantity, String product, String unitaryPrice) {
@@ -16,20 +21,67 @@ public class MyApp {
     }
 
     public void purchase(int quantity, String product, BigDecimal unitaryPrice) {
-        this.item = new OrderItem(quantity, product, unitaryPrice);
+        this.purchase(new OrderItem(quantity, product, unitaryPrice));
+    }
+
+    public void purchase(OrderItem... items) {
+        for (OrderItem i : items) {
+            this.items.add(i);
+        }
     }
 
     public String[] getReceipt() {
-        BigDecimal unitaryPrice = this.item.getUnitaryPrice();
-        String product = this.item.getProduct();
-        BigDecimal salesTaxes = taxCalculator.getSalesTaxes(product, unitaryPrice);
-        BigDecimal itemPrice = unitaryPrice.add(salesTaxes);
-        BigDecimal totalPrice = itemPrice;
-        return new String[]{
-                "1 " + product + ": " + itemPrice.toString(),
-                "Sales Taxes: " + salesTaxes.toString(),
-                "Total: " + totalPrice.toString()
-        };
+        List<OrderItemPurchased> orderLines =
+            this.items
+                .stream()
+                .map(item -> {
+                    BigDecimal unitaryPrice = item.getUnitaryPrice();
+                    String product = item.getProduct();
+                    BigDecimal salesTaxes = taxCalculator.getSalesTaxes(product, unitaryPrice);
+                    BigDecimal itemPrice = unitaryPrice.add(salesTaxes);
+                    return new OrderItemPurchased(item, itemPrice, salesTaxes);
+                })
+                .collect(Collectors.toList());
+
+        BigDecimal totalPrice = orderLines.stream().map(item -> item.getItemPrice()).reduce(BigDecimal.ZERO, BigDecimal::add);
+        BigDecimal totalSalesTaxes = orderLines.stream().map(item -> item.getSalesTaxes()).reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        List<String> itemLines =
+                orderLines
+                    .stream()
+                    .map(item -> "1 " + item.getItem().getProduct() + ": " + item.getItemPrice().toString())
+                    .collect(Collectors.toList());
+
+        String[] totals = {
+                "Sales Taxes: " + totalSalesTaxes.toString(),
+                "Total: " + totalPrice.toString() };
+
+        return Stream.concat(itemLines.stream(), Stream.of(totals)).toArray(String[]::new);
+    }
+
+    private final class OrderItemPurchased {
+        private final OrderItem item;
+        private final BigDecimal itemPrice;
+        private final BigDecimal salesTaxes;
+
+        public OrderItemPurchased(OrderItem item, BigDecimal itemPrice, BigDecimal salesTaxes) {
+
+            this.item = item;
+            this.itemPrice = itemPrice;
+            this.salesTaxes = salesTaxes;
+        }
+
+        public OrderItem getItem() {
+            return item;
+        }
+
+        public BigDecimal getItemPrice() {
+            return itemPrice;
+        }
+
+        public BigDecimal getSalesTaxes() {
+            return salesTaxes;
+        }
     }
 
     private final class OrderItem {
