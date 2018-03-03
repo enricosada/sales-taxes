@@ -21,7 +21,10 @@ public class MyApp {
     }
 
     public void purchase(int quantity, String product, BigDecimal unitaryPrice) {
-        OrderItem item = new OrderItem(quantity, product, unitaryPrice);
+        boolean isImported = product.startsWith("imported ");
+        String productName = isImported? product.replace("imported ", "") : product;
+
+        OrderItem item = new OrderItem(quantity, productName, unitaryPrice, isImported);
         this.items.add(item);
     }
 
@@ -51,7 +54,11 @@ public class MyApp {
         List<String> itemLines =
                 orderLines
                     .stream()
-                    .map(item -> "1 " + item.getItem().getProduct() + ": " + item.getItemPrice().toString())
+                    .map(item -> {
+                        OrderItem x = item.getItem();
+                        String displayName = x.getIsImported()? "imported " + x.getProduct() : x.getProduct();
+                        return "1 " + displayName + ": " + item.getItemPrice().toString();
+                    })
                     .collect(Collectors.toList());
 
         String[] totals = {

@@ -71,6 +71,21 @@ public class ScenarioTest {
         }, receipt);
     }
 
+    @Test
+    public void oneImportedItem() {
+        MyApp app = createApp();
+
+        app.purchase(1, "imported book", "10.00");
+
+        String[] receipt = app.getReceipt();
+
+        assertArrayEquals(new String[]{
+                "1 imported book: 10.00",
+                "Sales Taxes: 0",
+                "Total: 10.00"
+        }, receipt);
+    }
+
     @Property
     public void oneTaxedItemShouldApplyTaxesForTotal(BigDecimal price) {
         ITaxCalculator foo = (_p, m) -> m.add(BigDecimal.ONE);
