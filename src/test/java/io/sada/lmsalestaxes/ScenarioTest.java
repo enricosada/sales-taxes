@@ -44,4 +44,18 @@ public class ScenarioTest {
         }, receipt);
     }
 
+    @Test
+    public void oneTaxedItem() {
+        MyApp app = new MyApp();
+
+        app.purchase(1, "music CD", "14.99");
+
+        String[] receipt = app.getReceipt();
+
+        assertArrayEquals(new String[]{
+                "1 music CD: 16.49",
+                "Sales Taxes: 1.50",
+                "Total: 16.49"
+        }, receipt);
+    }
 }

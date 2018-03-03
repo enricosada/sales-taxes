@@ -14,12 +14,32 @@ public class MyApp {
     }
 
     public String[] getReceipt() {
-        String finalPrice = this.item.getUnitaryPrice().toString();
+        BigDecimal unitaryPrice = this.item.getUnitaryPrice();
+        String product = this.item.getProduct();
+        BigDecimal itemPrice = getItemPrice(product, unitaryPrice);
+        BigDecimal totalPrice = itemPrice;
+        BigDecimal salesTaxes = getSalesTaxes(product, unitaryPrice);
         return new String[]{
-                "1 book: " + finalPrice,
-                "Sales Taxes: 0",
-                "Total: " + finalPrice
+                "1 " + product + ": " + itemPrice.toString(),
+                "Sales Taxes: " + salesTaxes.toString(),
+                "Total: " + totalPrice.toString()
         };
+    }
+
+    private BigDecimal getSalesTaxes(String product, BigDecimal unitaryPrice) {
+        if ("book".equals(product)) {
+            return BigDecimal.ZERO;
+        } else {
+            return new BigDecimal("1.50");
+        }
+    }
+
+    private BigDecimal getItemPrice(String product, BigDecimal unitaryPrice) {
+        if ("book".equals(product)) {
+            return unitaryPrice;
+        } else {
+            return new BigDecimal("16.49");
+        }
     }
 
     private final class OrderItem {
