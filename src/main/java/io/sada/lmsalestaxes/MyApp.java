@@ -34,19 +34,21 @@ public class MyApp {
         List<OrderItemPurchased> orderLines =
             this.items
                 .stream()
-                .map(item -> {
-                    BigDecimal unitaryPrice = item.getUnitaryPrice();
-                    String product = item.getProduct();
-                    BigDecimal salesTaxes = taxCalculator.getSalesTaxes(product, unitaryPrice);
-                    BigDecimal itemPrice = unitaryPrice.add(salesTaxes);
-                    return new OrderItemPurchased(item, itemPrice, salesTaxes);
-                })
+                .map(this::getOrderItemPurchased)
                 .collect(Collectors.toList());
 
         BigDecimal totalPrice = orderLines.stream().map(item -> item.getItemPrice()).reduce(BigDecimal.ZERO, BigDecimal::add);
         BigDecimal totalSalesTaxes = orderLines.stream().map(item -> item.getSalesTaxes()).reduce(BigDecimal.ZERO, BigDecimal::add);
         String[] strings = generateReceiptLines(orderLines, totalPrice, totalSalesTaxes);
         return strings;
+    }
+
+    private OrderItemPurchased getOrderItemPurchased(OrderItem item) {
+        BigDecimal unitaryPrice = item.getUnitaryPrice();
+        String product = item.getProduct();
+        BigDecimal salesTaxes = taxCalculator.getSalesTaxes(product, unitaryPrice);
+        BigDecimal itemPrice = unitaryPrice.add(salesTaxes);
+        return new OrderItemPurchased(item, itemPrice, salesTaxes);
     }
 
     private String[] generateReceiptLines(List<OrderItemPurchased> orderLines, BigDecimal totalPrice, BigDecimal totalSalesTaxes) {
