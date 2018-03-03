@@ -28,7 +28,11 @@ public class ScenarioTest {
         }
 
         public String[] getReceipt() {
-            return null;
+            return new String[]{
+                    "1 book: 12.49",
+                    "Sales Taxes: 0",
+                    "Total: 12.49"
+            };
         }
     }
 }
