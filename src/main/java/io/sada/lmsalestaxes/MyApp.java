@@ -14,10 +14,11 @@ public class MyApp {
     }
 
     public String[] getReceipt() {
+        String finalPrice = this.item.getUnitaryPrice().toString();
         return new String[]{
-                "1 book: " + this.item.getUnitaryPrice().toString(),
+                "1 book: " + finalPrice,
                 "Sales Taxes: 0",
-                "Total: " + this.item.getUnitaryPrice().toString()
+                "Total: " + finalPrice
         };
     }
 
