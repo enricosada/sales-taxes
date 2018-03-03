@@ -21,13 +21,8 @@ public class MyApp {
     }
 
     public void purchase(int quantity, String product, BigDecimal unitaryPrice) {
-        this.purchase(new OrderItem(quantity, product, unitaryPrice));
-    }
-
-    private void purchase(OrderItem... items) {
-        for (OrderItem i : items) {
-            this.items.add(i);
-        }
+        OrderItem item = new OrderItem(quantity, product, unitaryPrice);
+        this.items.add(item);
     }
 
     public String[] getReceipt() {
