@@ -6,6 +6,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Consumer;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -15,7 +18,12 @@ import static org.junit.Assert.assertTrue;
 public class ScenarioTest {
 
     private MyApp createApp() {
-        return new MyApp(new TaxCalculator());
+        Map<String,SalesTax> rates = new HashMap<>();
+        rates.put("music CD", new SalesTax(10));
+
+        ITaxRatesForProduct taxRates = product -> rates.getOrDefault(product, SalesTax.NO_TAX);
+
+        return new MyApp(new TaxCalculator(taxRates));
     }
 
     @Test
