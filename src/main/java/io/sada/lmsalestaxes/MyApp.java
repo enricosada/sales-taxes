@@ -45,11 +45,11 @@ public class MyApp {
 
         BigDecimal totalPrice = orderLines.stream().map(item -> item.getItemPrice()).reduce(BigDecimal.ZERO, BigDecimal::add);
         BigDecimal totalSalesTaxes = orderLines.stream().map(item -> item.getSalesTaxes()).reduce(BigDecimal.ZERO, BigDecimal::add);
-        String[] strings = generateReceipitLines(orderLines, totalPrice, totalSalesTaxes);
+        String[] strings = generateReceiptLines(orderLines, totalPrice, totalSalesTaxes);
         return strings;
     }
 
-    private String[] generateReceipitLines(List<OrderItemPurchased> orderLines, BigDecimal totalPrice, BigDecimal totalSalesTaxes) {
+    private String[] generateReceiptLines(List<OrderItemPurchased> orderLines, BigDecimal totalPrice, BigDecimal totalSalesTaxes) {
 
         List<String> itemLines =
                 orderLines
