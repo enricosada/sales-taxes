@@ -32,4 +32,21 @@ public class AcceptanceTest {
                 "Total: 29.83"
         }, receipt);
     }
+
+    @Test
+    public void scenario2() {
+        MyApp app = createApp();
+
+        app.purchase(1, "imported box of chocolates", "10.00");
+        app.purchase(1, "imported bottle of perfume", "47.50");
+
+        String[] receipt = app.getReceipt();
+
+        assertArrayEquals(new String[]{
+                "1 imported box of chocolates: 10.50",
+                "1 imported bottle of perfume: 54.65",
+                "Sales Taxes: 7.65",
+                "Total: 65.15"
+        }, receipt);
+    }
 }

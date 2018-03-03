@@ -8,6 +8,8 @@ public class TestDataProductCategories {
         cat.put("book", ProductCategory.BOOK);
         cat.put("music CD", ProductCategory.GENERIC);
         cat.put("chocolate bar", ProductCategory.FOOD);
+        cat.put("box of chocolates", ProductCategory.FOOD);
+        cat.put("bottle of perfume", ProductCategory.GENERIC);
         return cat;
     }
 }
