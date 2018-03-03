@@ -3,16 +3,16 @@ package io.sada.lmsalestaxes;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TestDataSalesTaxesByName {
+public class SalesTaxRatesOnName {
     private final HashMap<String, SalesTax> rates;
     private SalesTax defaultTax;
 
-    public TestDataSalesTaxesByName(SalesTax defaultTax) {
+    public SalesTaxRatesOnName(SalesTax defaultTax) {
         rates = new HashMap<>();
         this.defaultTax = defaultTax;
     }
 
-    public TestDataSalesTaxesByName withProduct(String productName, SalesTax salesTax) {
+    public SalesTaxRatesOnName withProduct(String productName, SalesTax salesTax) {
         rates.put(productName, salesTax);
         return this;
     }

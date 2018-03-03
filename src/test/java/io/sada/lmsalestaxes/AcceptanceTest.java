@@ -2,9 +2,6 @@ package io.sada.lmsalestaxes;
 
 import org.junit.Test;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import static org.junit.Assert.assertArrayEquals;
 
 public class AcceptanceTest {
@@ -12,7 +9,7 @@ public class AcceptanceTest {
     private MyApp createApp() {
 
         ITaxRatesForProduct taxRates =
-                new TestDataSalesTaxesByName(SalesTax.NO_TAX)
+                new SalesTaxRatesOnName(SalesTax.NO_TAX)
                         .withProduct("music CD", new SalesTax(10))
                         .create();
 

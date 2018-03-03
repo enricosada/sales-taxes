@@ -7,8 +7,6 @@ import org.junit.runner.RunWith;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.function.Consumer;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -20,7 +18,7 @@ public class ScenarioTest {
     private MyApp createApp() {
 
         ITaxRatesForProduct taxRates =
-                new TestDataSalesTaxesByName(SalesTax.NO_TAX)
+                new SalesTaxRatesOnName(SalesTax.NO_TAX)
                         .withProduct("music CD", new SalesTax(10))
                         .create();
 
