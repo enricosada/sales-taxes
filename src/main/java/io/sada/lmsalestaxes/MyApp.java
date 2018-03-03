@@ -43,13 +43,13 @@ public class MyApp {
                 })
                 .collect(Collectors.toList());
 
-        String[] strings = generateReceipitLines(orderLines);
+        BigDecimal totalPrice = orderLines.stream().map(item -> item.getItemPrice()).reduce(BigDecimal.ZERO, BigDecimal::add);
+        BigDecimal totalSalesTaxes = orderLines.stream().map(item -> item.getSalesTaxes()).reduce(BigDecimal.ZERO, BigDecimal::add);
+        String[] strings = generateReceipitLines(orderLines, totalPrice, totalSalesTaxes);
         return strings;
     }
 
-    private String[] generateReceipitLines(List<OrderItemPurchased> orderLines) {
-        BigDecimal totalPrice = orderLines.stream().map(item -> item.getItemPrice()).reduce(BigDecimal.ZERO, BigDecimal::add);
-        BigDecimal totalSalesTaxes = orderLines.stream().map(item -> item.getSalesTaxes()).reduce(BigDecimal.ZERO, BigDecimal::add);
+    private String[] generateReceipitLines(List<OrderItemPurchased> orderLines, BigDecimal totalPrice, BigDecimal totalSalesTaxes) {
 
         List<String> itemLines =
                 orderLines
