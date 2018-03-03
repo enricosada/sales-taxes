@@ -24,7 +24,7 @@ public class MyApp {
         this.purchase(new OrderItem(quantity, product, unitaryPrice));
     }
 
-    public void purchase(OrderItem... items) {
+    private void purchase(OrderItem... items) {
         for (OrderItem i : items) {
             this.items.add(i);
         }
