@@ -14,9 +14,13 @@ import static org.junit.Assert.assertTrue;
 @RunWith(JUnitQuickcheck.class)
 public class ScenarioTest {
 
+    private MyApp createApp() {
+        return new MyApp(new TaxCalculator());
+    }
+
     @Test
     public void oneItem() {
-        MyApp app = new MyApp(new TaxCalculator());
+        MyApp app = createApp();
 
         app.purchase(1, "book", "12.49");
 
@@ -31,7 +35,7 @@ public class ScenarioTest {
 
     @Property
     public void oneItemAnyPriceIsAlwaysTheTotal(BigDecimal price) {
-        MyApp app = new MyApp(new TaxCalculator());
+        MyApp app = createApp();
 
         app.purchase(1, "book", price);
 
@@ -46,7 +50,7 @@ public class ScenarioTest {
 
     @Test
     public void oneTaxedItem() {
-        MyApp app = new MyApp(new TaxCalculator());
+        MyApp app = createApp();
 
         app.purchase(1, "music CD", "14.99");
 
