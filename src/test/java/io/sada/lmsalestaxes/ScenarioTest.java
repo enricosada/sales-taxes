@@ -62,4 +62,23 @@ public class ScenarioTest {
                 "Total: 16.49"
         }, receipt);
     }
+
+    @Property
+    public void oneTaxedItemShouldApplyTaxesForTotal(BigDecimal price) {
+        ITaxCalculator foo = (_p, m) -> m.add(BigDecimal.ONE);
+        MyApp app = new MyApp(foo);
+
+        app.purchase(1, "music CD", price);
+
+        String[] receipt = app.getReceipt();
+
+        BigDecimal taxes = price.add(BigDecimal.ONE);
+        BigDecimal itemPrice = price.add(taxes);
+
+        assertArrayEquals(new String[]{
+                "1 music CD: " + itemPrice.toString(),
+                "Sales Taxes: " + taxes.toString(),
+                "Total: " + itemPrice.toString()
+        }, receipt);
+    }
 }
