@@ -21,7 +21,7 @@ public class ScenarioTest {
         Map<String,SalesTax> rates = new HashMap<>();
         rates.put("music CD", new SalesTax(10));
 
-        ITaxRatesForProduct taxRates = product -> rates.getOrDefault(product, SalesTax.NO_TAX);
+        ITaxRatesForProduct taxRates = product -> rates.getOrDefault(product.getProduct(), SalesTax.NO_TAX);
 
         return new MyApp(new TaxCalculator(taxRates));
     }

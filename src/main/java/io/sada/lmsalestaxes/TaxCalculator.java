@@ -10,7 +10,7 @@ public class TaxCalculator implements ITaxCalculator {
         this.taxRates = taxRates;
     }
 
-    public BigDecimal getSalesTaxes(String product, BigDecimal price) {
+    public BigDecimal getSalesTaxes(OrderItem product, BigDecimal price) {
         SalesTax taxRate = this.taxRates.getForProduct(product);
         return taxRate.getAmountFor(price);
     }

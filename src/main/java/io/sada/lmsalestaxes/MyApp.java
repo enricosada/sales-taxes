@@ -46,7 +46,7 @@ public class MyApp {
     private OrderItemPurchased getOrderItemPurchased(OrderItem item) {
         BigDecimal unitaryPrice = item.getUnitaryPrice();
         String product = item.getProduct();
-        BigDecimal salesTaxes = taxCalculator.getSalesTaxes(product, unitaryPrice);
+        BigDecimal salesTaxes = taxCalculator.getSalesTaxes(item, unitaryPrice);
         BigDecimal itemPrice = unitaryPrice.add(salesTaxes);
         return new OrderItemPurchased(item, itemPrice, salesTaxes);
     }
@@ -90,28 +90,5 @@ public class MyApp {
             return salesTaxes;
         }
     }
-
-    private final class OrderItem {
-        private final int quantity;
-        private final String product;
-        private final BigDecimal unitaryPrice;
-
-        public OrderItem(int quantity, String product, BigDecimal unitaryPrice) {
-            this.quantity = quantity;
-            this.product = product;
-            this.unitaryPrice = unitaryPrice;
-        }
-
-        public int getQuantity() {
-            return quantity;
-        }
-
-        public String getProduct() {
-            return product;
-        }
-
-        public BigDecimal getUnitaryPrice() {
-            return unitaryPrice;
-        }
-    }
 }
+
