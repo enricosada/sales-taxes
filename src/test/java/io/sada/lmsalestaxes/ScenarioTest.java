@@ -23,7 +23,8 @@ public class ScenarioTest {
 
         ITaxRatesForProduct taxRates = product -> rates.getOrDefault(product.getProduct(), SalesTax.NO_TAX);
 
-        return new MyApp(new TaxCalculator(taxRates));
+        ProductStore productStore = new ProductStoreInMemory(new TestDataProductCategories().create());
+        return new MyApp(new TaxCalculator(taxRates), productStore);
     }
 
     @Test
@@ -89,7 +90,7 @@ public class ScenarioTest {
     @Property
     public void oneTaxedItemShouldApplyTaxesForTotal(BigDecimal price) {
         ITaxCalculator foo = (_p, m) -> m.add(BigDecimal.ONE);
-        MyApp app = new MyApp(foo);
+        MyApp app = new MyApp(foo, new ProductStoreInMemory(new HashMap<>()));
 
         app.purchase(1, "music CD", price);
 

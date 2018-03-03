@@ -7,12 +7,14 @@ public final class OrderItem {
     private final String product;
     private final BigDecimal unitaryPrice;
     private boolean isImported;
+    private ProductCategory category;
 
-    public OrderItem(int quantity, String product, BigDecimal unitaryPrice, boolean isImported) {
+    public OrderItem(int quantity, String product, BigDecimal unitaryPrice, boolean isImported, ProductCategory category) {
         this.quantity = quantity;
         this.product = product;
         this.unitaryPrice = unitaryPrice;
         this.isImported = isImported;
+        this.category = category;
     }
 
     public int getQuantity() {
@@ -28,4 +30,6 @@ public final class OrderItem {
     }
 
     public boolean getIsImported() { return isImported; }
+
+    public ProductCategory getCategory() { return category; }
 }

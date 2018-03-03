@@ -8,23 +8,28 @@ import java.util.stream.Stream;
 
 public class MyApp {
     private final ITaxCalculator taxCalculator;
+    private final ProductStore productStore;
 
     private List<OrderItem> items;
 
-    public MyApp(ITaxCalculator taxCalculator){
+    public MyApp(ITaxCalculator taxCalculator, ProductStore productStore){
         this.taxCalculator = taxCalculator;
+        this.productStore = productStore;
         this.items = new ArrayList<>();
     }
 
-    public void purchase(int quantity, String product, String unitaryPrice) {
-        this.purchase(quantity, product, new BigDecimal(unitaryPrice));
+    public void purchase(int quantity, String displayName, String unitaryPrice) {
+        this.purchase(quantity, displayName, new BigDecimal(unitaryPrice));
     }
 
-    public void purchase(int quantity, String product, BigDecimal unitaryPrice) {
-        boolean isImported = product.startsWith("imported ");
-        String productName = isImported? product.replace("imported ", "") : product;
+    public void purchase(int quantity, String displayName, BigDecimal unitaryPrice) {
+        boolean isImported = displayName.startsWith("imported ");
+        String productName = isImported? displayName.replace("imported", "").trim() : displayName.trim();
 
-        OrderItem item = new OrderItem(quantity, productName, unitaryPrice, isImported);
+        ProductCategory category = productStore.getCategoryOf(productName);
+
+        OrderItem item = new OrderItem(quantity, productName, unitaryPrice, isImported, category);
+
         this.items.add(item);
     }
 

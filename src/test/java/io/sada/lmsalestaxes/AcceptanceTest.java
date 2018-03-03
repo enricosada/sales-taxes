@@ -15,7 +15,8 @@ public class AcceptanceTest {
 
         ITaxRatesForProduct taxRates = product -> rates.getOrDefault(product.getProduct(), SalesTax.NO_TAX);
 
-        return new MyApp(new TaxCalculator(taxRates));
+        ProductStore productStore = new ProductStoreInMemory(new TestDataProductCategories().create());
+        return new MyApp(new TaxCalculator(taxRates), productStore);
     }
 
     @Test
