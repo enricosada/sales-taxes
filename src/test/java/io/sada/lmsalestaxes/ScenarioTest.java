@@ -18,10 +18,11 @@ import static org.junit.Assert.assertTrue;
 public class ScenarioTest {
 
     private MyApp createApp() {
-        Map<String,SalesTax> rates = new HashMap<>();
-        rates.put("music CD", new SalesTax(10));
 
-        ITaxRatesForProduct taxRates = product -> rates.getOrDefault(product.getProduct(), SalesTax.NO_TAX);
+        ITaxRatesForProduct taxRates =
+                new TestDataSalesTaxesByName(SalesTax.NO_TAX)
+                        .withProduct("music CD", new SalesTax(10))
+                        .create();
 
         ProductStore productStore = new ProductStoreInMemory(new TestDataProductCategories().create());
         return new MyApp(new TaxCalculator(taxRates), productStore);

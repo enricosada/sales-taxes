@@ -1,6 +1,7 @@
 package io.sada.lmsalestaxes;
 
 import java.math.BigDecimal;
+import java.util.stream.Stream;
 
 public class TaxCalculator implements ITaxCalculator {
 
@@ -11,8 +12,10 @@ public class TaxCalculator implements ITaxCalculator {
     }
 
     public BigDecimal getSalesTaxes(OrderItem product, BigDecimal price) {
-        SalesTax taxRate = this.taxRates.getForProduct(product);
-        return taxRate.getAmountFor(price);
+        SalesTax[] taxRates = this.taxRates.getForProduct(product);
+        return Stream.of(taxRates)
+                .map(taxRate -> taxRate.getAmountFor(price))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 }
 
