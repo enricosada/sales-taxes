@@ -7,7 +7,7 @@ import static org.junit.Assert.assertArrayEquals;
 public class AcceptanceTest {
 
     private MyApp createApp() {
-        ITaxRatesForProduct basicTaxes = new BasicSalesTax(BasicSalesTax.BASIC_TAX, ProductCategory.BOOK, ProductCategory.FOOD, ProductCategory.MEDICAL);
+        ITaxRatesForProduct basicTaxes = new BasicSalesTax(BasicSalesTax.BASIC_TAX, BasicSalesTax.EXEMPTED_CATEGORIES);
         ITaxRatesForProduct importDuty = new ImportDutySalesTax(ImportDutySalesTax.IMPORT_DUTY);
 
         ProductStore productStore = new ProductStoreInMemory(new TestDataProductCategories().create());

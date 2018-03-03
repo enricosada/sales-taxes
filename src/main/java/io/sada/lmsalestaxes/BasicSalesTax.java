@@ -3,7 +3,12 @@ package io.sada.lmsalestaxes;
 import java.util.stream.Stream;
 
 public class BasicSalesTax implements ITaxRatesForProduct {
-    public final static SalesTax BASIC_TAX = new SalesTax(10);
+    public static final SalesTax BASIC_TAX = new SalesTax(10);
+    public static final ProductCategory[] EXEMPTED_CATEGORIES = new ProductCategory[] {
+            ProductCategory.BOOK,
+            ProductCategory.FOOD,
+            ProductCategory.MEDICAL
+    };
 
     private final SalesTax defaultTax;
     private final ProductCategory[] exemptions;
