@@ -1,6 +1,8 @@
 package io.sada.lmsalestaxes;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.math.RoundingMode;
 
 public class SalesTax {
     public static final SalesTax NO_TAX = new SalesTax(0);
@@ -19,7 +21,8 @@ public class SalesTax {
         if (this.getRate() == 0) {
             return BigDecimal.ZERO;
         } else {
-            return new BigDecimal("1.50");
+            BigDecimal amount = new BigDecimal(rate).multiply(price).divide(new BigDecimal(100));
+            return amount.setScale(2, BigDecimal.ROUND_HALF_UP);
         }
     }
 }
