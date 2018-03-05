@@ -1,5 +1,6 @@
 package io.sada.lmsalestaxes;
 
+import io.sada.lmsalestaxes.receipt.Receipt;
 import io.sada.lmsalestaxes.receipt.ReceiptItem;
 import io.sada.lmsalestaxes.receipt.ReceiptPrinter;
 import io.sada.lmsalestaxes.store.ProductCategory;
@@ -56,11 +57,11 @@ public class CashRegister {
     }
 
     public void purchase() {
-        String[] receipt = createReceipt();
+        Receipt receipt = createReceipt();
         this.getScreen().show(receipt);
     }
 
-    private String[] createReceipt() {
+    private Receipt createReceipt() {
         List<ReceiptItem> orderLines =
             this.items
                 .stream()

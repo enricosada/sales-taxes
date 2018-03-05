@@ -1,6 +1,7 @@
 package io.sada.lmsalestaxes;
 
 import io.sada.lmsalestaxes.receipt.ReceiptPrinter;
+import io.sada.lmsalestaxes.receipt.ReceiptTextFormatter;
 import io.sada.lmsalestaxes.store.ProductStore;
 import io.sada.lmsalestaxes.store.ProductStoreInMemory;
 import io.sada.lmsalestaxes.tax.BasicSalesTax;
@@ -18,7 +19,7 @@ public class AcceptanceTest {
         ITaxRatesForProduct importDuty = new ImportDutySalesTax(ImportDutySalesTax.IMPORT_DUTY);
 
         ProductStore productStore = new ProductStoreInMemory(new TestDataProductCategories().create());
-        CashRegisterScreen screen = new CashRegisterScreenAsLines();
+        CashRegisterScreen screen = new CashRegisterScreenAsLines(new ReceiptTextFormatter());
         return new CashRegister(new TaxCalculator(basicTaxes, importDuty), productStore, new ReceiptPrinter(), screen);
     }
 

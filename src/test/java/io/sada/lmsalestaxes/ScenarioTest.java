@@ -4,6 +4,7 @@ import com.pholser.junit.quickcheck.Property;
 import com.pholser.junit.quickcheck.generator.InRange;
 import com.pholser.junit.quickcheck.runner.JUnitQuickcheck;
 import io.sada.lmsalestaxes.receipt.ReceiptPrinter;
+import io.sada.lmsalestaxes.receipt.ReceiptTextFormatter;
 import io.sada.lmsalestaxes.store.ProductStore;
 import io.sada.lmsalestaxes.store.ProductStoreInMemory;
 import io.sada.lmsalestaxes.tax.*;
@@ -31,7 +32,7 @@ public class ScenarioTest {
                         .withProduct("music CD", new SalesTax(10))
                         .create();
 
-        CashRegisterScreen screen = new CashRegisterScreenAsLines();
+        CashRegisterScreen screen = new CashRegisterScreenAsLines(new ReceiptTextFormatter());
 
         ProductStore productStore = new ProductStoreInMemory(new TestDataProductCategories().create());
         return new CashRegister(new TaxCalculator(taxRates), productStore, new ReceiptPrinter(), screen);
@@ -122,7 +123,7 @@ public class ScenarioTest {
     @Property
     public void oneTaxedItemShouldApplyTaxesForTotal(BigDecimal price) {
         ITaxCalculator foo = (_p, m) -> m.add(BigDecimal.ONE);
-        CashRegister app = new CashRegister(foo, new ProductStoreInMemory(new HashMap<>()), new ReceiptPrinter(), new CashRegisterScreenAsLines());
+        CashRegister app = new CashRegister(foo, new ProductStoreInMemory(new HashMap<>()), new ReceiptPrinter(), new CashRegisterScreenAsLines(new ReceiptTextFormatter()));
 
         app.include(1, "music CD", price);
 

@@ -1,19 +1,23 @@
 package io.sada.lmsalestaxes;
 
-import io.sada.lmsalestaxes.receipt.ReceiptPrinter;
+import io.sada.lmsalestaxes.receipt.Receipt;
+import io.sada.lmsalestaxes.receipt.ReceiptTextFormatter;
 
 import java.util.ArrayList;
 import java.util.stream.Stream;
 
 public class CashRegisterScreenAsLines implements CashRegisterScreen {
 
-    private ArrayList<String> lines;
+    private final ReceiptTextFormatter receiptFormatter;
+    private final ArrayList<String> lines;
 
-    public CashRegisterScreenAsLines() {
+    public CashRegisterScreenAsLines(ReceiptTextFormatter receiptFormatter) {
+        this.receiptFormatter = receiptFormatter;
         this.lines = new ArrayList<>();
     }
 
-    public void show(String[] lines) {
+    public void show(Receipt receipt) {
+        String[] lines = receiptFormatter.print(receipt);
         Stream.of(lines).forEach(line -> this.lines.add(line));
     }
 
