@@ -58,7 +58,7 @@ public class CashRegister {
 
     public void purchase() {
         Receipt receipt = createReceipt();
-        this.getScreen().show(receipt);
+        this.screen.show(receipt);
     }
 
     private Receipt createReceipt() {
@@ -79,10 +79,6 @@ public class CashRegister {
         BigDecimal itemPrice = price.add(salesTaxes);
         String displayName = item.getIsImported()? "imported " + item.getProduct() : item.getProduct();
         return new ReceiptItem(displayName, itemPrice, salesTaxes);
-    }
-
-    public CashRegisterScreen getScreen() {
-        return screen;
     }
 }
 

@@ -22,25 +22,21 @@ public class AcceptanceTest {
         return new CashRegister(new TaxCalculator(basicTaxes, importDuty), productStore, new ReceiptPrinter(), screen);
     }
 
-    private CashRegister createApp() {
-        CashRegisterScreen screen = createScreen();
-        return createApp(screen);
-    }
-
     private CashRegisterScreen createScreen() {
         return new CashRegisterScreenAsLines(new ReceiptTextFormatter());
     }
 
     @Test
     public void scenario1() {
-        CashRegister app = createApp();
+        CashRegisterScreen screen = createScreen();
+        CashRegister app = createApp(screen);
 
         app.include(1, "book", "12.49");
         app.include(1, "music CD", "14.99");
         app.include(1, "chocolate bar", "0.85");
 
         app.purchase();
-        String[] receipt = app.getScreen().getLines();
+        String[] receipt = screen.getLines();
 
         assertArrayEquals(new String[]{
                 "1 book: 12.49",
@@ -53,13 +49,14 @@ public class AcceptanceTest {
 
     @Test
     public void scenario2() {
-        CashRegister app = createApp();
+        CashRegisterScreen screen = createScreen();
+        CashRegister app = createApp(screen);
 
         app.include(1, "imported box of chocolates", "10.00");
         app.include(1, "imported bottle of perfume", "47.50");
 
         app.purchase();
-        String[] receipt = app.getScreen().getLines();
+        String[] receipt = screen.getLines();
 
         assertArrayEquals(new String[]{
                 "1 imported box of chocolates: 10.50",
@@ -71,7 +68,8 @@ public class AcceptanceTest {
 
     @Test
     public void scenario3() {
-        CashRegister app = createApp();
+        CashRegisterScreen screen = createScreen();
+        CashRegister app = createApp(screen);
 
         app.include(1, "imported bottle of perfume", "27.99");
         app.include(1, "bottle of perfume", "18.99");
@@ -79,7 +77,7 @@ public class AcceptanceTest {
         app.include(1, "box of imported chocolates", "11.25");
 
         app.purchase();
-        String[] receipt = app.getScreen().getLines();
+        String[] receipt = screen.getLines();
 
         assertArrayEquals(new String[]{
                 "1 imported bottle of perfume: 32.19",

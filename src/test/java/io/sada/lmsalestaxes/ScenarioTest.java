@@ -36,23 +36,19 @@ public class ScenarioTest {
         return new CashRegister(new TaxCalculator(taxRates), productStore, new ReceiptPrinter(), screen);
     }
 
-    private CashRegister createApp() {
-        CashRegisterScreen screen = createScreen();
-        return createApp(screen);
-    }
-
     private CashRegisterScreen createScreen() {
         return new CashRegisterScreenAsLines(new ReceiptTextFormatter());
     }
 
     @Test
     public void oneItem() {
-        CashRegister app = createApp();
+        CashRegisterScreen screen = createScreen();
+        CashRegister app = createApp(screen);
 
         app.include(1, "book", "12.49");
 
         app.purchase();
-        String[] receipt = app.getScreen().getLines();
+        String[] receipt = screen.getLines();
 
         assertArrayEquals(new String[]{
                 "1 book: 12.49",
@@ -63,12 +59,13 @@ public class ScenarioTest {
 
     @Property
     public void oneItemAnyPriceIsAlwaysTheTotal(BigDecimal price) {
-        CashRegister app = createApp();
+        CashRegisterScreen screen = createScreen();
+        CashRegister app = createApp(screen);
 
         app.include(1, "book", price);
 
         app.purchase();
-        String[] receipt = app.getScreen().getLines();
+        String[] receipt = screen.getLines();
 
         assertArrayEquals(new String[]{
                 "1 book: " + price.toString(),
@@ -79,12 +76,13 @@ public class ScenarioTest {
 
     @Test
     public void oneTaxedItem() {
-        CashRegister app = createApp();
+        CashRegisterScreen screen = createScreen();
+        CashRegister app = createApp(screen);
 
         app.include(1, "music CD", "14.99");
 
         app.purchase();
-        String[] receipt = app.getScreen().getLines();
+        String[] receipt = screen.getLines();
 
         assertArrayEquals(new String[]{
                 "1 music CD: 16.49",
@@ -95,12 +93,13 @@ public class ScenarioTest {
 
     @Test
     public void oneImportedItem() {
-        CashRegister app = createApp();
+        CashRegisterScreen screen = createScreen();
+        CashRegister app = createApp(screen);
 
         app.include(1, "imported book", "10.00");
 
         app.purchase();
-        String[] receipt = app.getScreen().getLines();
+        String[] receipt = screen.getLines();
 
         assertArrayEquals(new String[]{
                 "1 imported book: 10.00",
@@ -113,12 +112,13 @@ public class ScenarioTest {
     public void oneImportedItemWithNameVariant(String before, String after) {
         assumeThat(before + after, not(""));
 
-        CashRegister app = createApp();
+        CashRegisterScreen screen = createScreen();
+        CashRegister app = createApp(screen);
 
         app.include(1, (before + " imported " + after).trim(), "10.00");
 
         app.purchase();
-        String[] receipt = app.getScreen().getLines();
+        String[] receipt = screen.getLines();
 
         assertArrayEquals(new String[]{
                 "1 imported " + (before + " " + after).trim() + ": 10.00",
@@ -130,12 +130,13 @@ public class ScenarioTest {
     @Property
     public void oneTaxedItemShouldApplyTaxesForTotal(BigDecimal price) {
         ITaxCalculator foo = (_p, m) -> m.add(BigDecimal.ONE);
-        CashRegister app = new CashRegister(foo, new ProductStoreInMemory(new HashMap<>()), new ReceiptPrinter(), new CashRegisterScreenAsLines(new ReceiptTextFormatter()));
+        CashRegisterScreenAsLines screen = new CashRegisterScreenAsLines(new ReceiptTextFormatter());
+        CashRegister app = new CashRegister(foo, new ProductStoreInMemory(new HashMap<>()), new ReceiptPrinter(), screen);
 
         app.include(1, "music CD", price);
 
         app.purchase();
-        String[] receipt = app.getScreen().getLines();
+        String[] receipt = screen.getLines();
 
         BigDecimal taxes = price.add(BigDecimal.ONE);
         BigDecimal itemPrice = price.add(taxes);
@@ -149,17 +150,19 @@ public class ScenarioTest {
 
     @Property
     public void differentQuantitySameTotals(@InRange(min = "1", max = "10000") int quantity) {
-        CashRegister app = createApp();
+        CashRegisterScreen appScreen = createScreen();
+        CashRegister app = createApp(appScreen);
         app.include(quantity, "book", "12.49");
         app.purchase();
-        String[] receiptOne = app.getScreen().getLines();
+        String[] receiptOne = appScreen.getLines();
 
-        CashRegister app2 = createApp();
+        CashRegisterScreen app2Screen = createScreen();
+        CashRegister app2 = createApp(app2Screen);
         IntStream.range(0, quantity)
                  .forEach(_i -> app2.include(1, "book", "12.49"));
 
         app2.purchase();
-        String[] receiptSum = app2.getScreen().getLines();
+        String[] receiptSum = app2Screen.getLines();
 
         String[] totalOne = Stream.of(receiptOne).filter(s -> s.startsWith("Total:")).toArray(String[]::new);
         String[] totalSum = Stream.of(receiptSum).filter(s -> s.startsWith("Total:")).toArray(String[]::new);
