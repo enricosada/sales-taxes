@@ -6,12 +6,12 @@ import io.sada.lmsalestaxes.receipt.ReceiptTextFormatter;
 import java.util.ArrayList;
 import java.util.stream.Stream;
 
-public class CashRegisterScreenAsLines implements CashRegisterScreen {
+public class TextScreen implements CashRegisterScreen {
 
     private final ReceiptTextFormatter receiptFormatter;
     private final ArrayList<String> lines;
 
-    public CashRegisterScreenAsLines(ReceiptTextFormatter receiptFormatter) {
+    public TextScreen(ReceiptTextFormatter receiptFormatter) {
         this.receiptFormatter = receiptFormatter;
         this.lines = new ArrayList<>();
     }

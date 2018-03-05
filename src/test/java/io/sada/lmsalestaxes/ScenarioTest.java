@@ -36,13 +36,13 @@ public class ScenarioTest {
         return new CashRegister(new TaxCalculator(taxRates), productStore, new ReceiptPrinter(), screen);
     }
 
-    private CashRegisterScreenAsLines createScreen() {
-        return new CashRegisterScreenAsLines(new ReceiptTextFormatter());
+    private TextScreen createScreen() {
+        return new TextScreen(new ReceiptTextFormatter());
     }
 
     @Test
     public void oneItem() {
-        CashRegisterScreenAsLines screen = createScreen();
+        TextScreen screen = createScreen();
         CashRegister app = createApp(screen);
 
         app.include(1, "book", "12.49");
@@ -59,7 +59,7 @@ public class ScenarioTest {
 
     @Property
     public void oneItemAnyPriceIsAlwaysTheTotal(BigDecimal price) {
-        CashRegisterScreenAsLines screen = createScreen();
+        TextScreen screen = createScreen();
         CashRegister app = createApp(screen);
 
         app.include(1, "book", price);
@@ -76,7 +76,7 @@ public class ScenarioTest {
 
     @Test
     public void oneTaxedItem() {
-        CashRegisterScreenAsLines screen = createScreen();
+        TextScreen screen = createScreen();
         CashRegister app = createApp(screen);
 
         app.include(1, "music CD", "14.99");
@@ -93,7 +93,7 @@ public class ScenarioTest {
 
     @Test
     public void oneImportedItem() {
-        CashRegisterScreenAsLines screen = createScreen();
+        TextScreen screen = createScreen();
         CashRegister app = createApp(screen);
 
         app.include(1, "imported book", "10.00");
@@ -112,7 +112,7 @@ public class ScenarioTest {
     public void oneImportedItemWithNameVariant(String before, String after) {
         assumeThat(before + after, not(""));
 
-        CashRegisterScreenAsLines screen = createScreen();
+        TextScreen screen = createScreen();
         CashRegister app = createApp(screen);
 
         app.include(1, (before + " imported " + after).trim(), "10.00");
@@ -130,7 +130,7 @@ public class ScenarioTest {
     @Property
     public void oneTaxedItemShouldApplyTaxesForTotal(BigDecimal price) {
         ITaxCalculator foo = (_p, m) -> m.add(BigDecimal.ONE);
-        CashRegisterScreenAsLines screen = new CashRegisterScreenAsLines(new ReceiptTextFormatter());
+        TextScreen screen = new TextScreen(new ReceiptTextFormatter());
         CashRegister app = new CashRegister(foo, new ProductStoreInMemory(new HashMap<>()), new ReceiptPrinter(), screen);
 
         app.include(1, "music CD", price);
@@ -150,13 +150,13 @@ public class ScenarioTest {
 
     @Property
     public void differentQuantitySameTotals(@InRange(min = "1", max = "10000") int quantity) {
-        CashRegisterScreenAsLines appScreen = createScreen();
+        TextScreen appScreen = createScreen();
         CashRegister app = createApp(appScreen);
         app.include(quantity, "book", "12.49");
         app.purchase();
         String[] receiptOne = appScreen.getLines();
 
-        CashRegisterScreenAsLines app2Screen = createScreen();
+        TextScreen app2Screen = createScreen();
         CashRegister app2 = createApp(app2Screen);
         IntStream.range(0, quantity)
                  .forEach(_i -> app2.include(1, "book", "12.49"));
