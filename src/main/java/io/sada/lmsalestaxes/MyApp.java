@@ -53,7 +53,7 @@ public class MyApp {
         List<ReceiptItem> orderLines =
             this.items
                 .stream()
-                .map(this::getOrderItemPurchased)
+                .map(this::toReceiptItem)
                 .collect(Collectors.toList());
 
         BigDecimal totalPrice = orderLines.stream().map(item -> item.getItemPrice()).reduce(BigDecimal.ZERO, BigDecimal::add);
@@ -62,7 +62,7 @@ public class MyApp {
         return strings;
     }
 
-    private ReceiptItem getOrderItemPurchased(OrderItem item) {
+    private ReceiptItem toReceiptItem(OrderItem item) {
         BigDecimal price = item.getUnitaryPrice().multiply(new BigDecimal(item.getQuantity()));
         BigDecimal salesTaxes = taxCalculator.getSalesTaxes(item, price);
         BigDecimal itemPrice = price.add(salesTaxes);
