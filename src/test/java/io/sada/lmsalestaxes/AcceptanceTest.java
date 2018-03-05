@@ -10,17 +10,17 @@ import static org.junit.Assert.assertArrayEquals;
 
 public class AcceptanceTest {
 
-    private MyApp createApp() {
+    private CashRegister createApp() {
         ITaxRatesForProduct basicTaxes = new BasicSalesTax(BasicSalesTax.BASIC_TAX, BasicSalesTax.EXEMPTED_CATEGORIES);
         ITaxRatesForProduct importDuty = new ImportDutySalesTax(ImportDutySalesTax.IMPORT_DUTY);
 
         ProductStore productStore = new ProductStoreInMemory(new TestDataProductCategories().create());
-        return new MyApp(new TaxCalculator(basicTaxes, importDuty), productStore, new ReceiptPrinter());
+        return new CashRegister(new TaxCalculator(basicTaxes, importDuty), productStore, new ReceiptPrinter());
     }
 
     @Test
     public void scenario1() {
-        MyApp app = createApp();
+        CashRegister app = createApp();
 
         app.purchase(1, "book", "12.49");
         app.purchase(1, "music CD", "14.99");
@@ -39,7 +39,7 @@ public class AcceptanceTest {
 
     @Test
     public void scenario2() {
-        MyApp app = createApp();
+        CashRegister app = createApp();
 
         app.purchase(1, "imported box of chocolates", "10.00");
         app.purchase(1, "imported bottle of perfume", "47.50");
@@ -56,7 +56,7 @@ public class AcceptanceTest {
 
     @Test
     public void scenario3() {
-        MyApp app = createApp();
+        CashRegister app = createApp();
 
         app.purchase(1, "imported bottle of perfume", "27.99");
         app.purchase(1, "bottle of perfume", "18.99");

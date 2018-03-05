@@ -7,14 +7,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class MyApp {
+public class CashRegister {
     private final ITaxCalculator taxCalculator;
     private final ProductStore productStore;
     private final ReceiptPrinter receipt;
 
     private List<OrderItem> items;
 
-    public MyApp(ITaxCalculator taxCalculator, ProductStore productStore, ReceiptPrinter receipt){
+    public CashRegister(ITaxCalculator taxCalculator, ProductStore productStore, ReceiptPrinter receipt){
         this.taxCalculator = taxCalculator;
         this.productStore = productStore;
         this.receipt = receipt;

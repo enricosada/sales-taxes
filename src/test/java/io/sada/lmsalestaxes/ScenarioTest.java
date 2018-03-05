@@ -21,7 +21,7 @@ import static org.junit.Assume.assumeThat;
 @RunWith(JUnitQuickcheck.class)
 public class ScenarioTest {
 
-    private MyApp createApp() {
+    private CashRegister createApp() {
 
         ITaxRatesForProduct taxRates =
                 new SalesTaxRatesOnName(SalesTax.NO_TAX)
@@ -29,12 +29,12 @@ public class ScenarioTest {
                         .create();
 
         ProductStore productStore = new ProductStoreInMemory(new TestDataProductCategories().create());
-        return new MyApp(new TaxCalculator(taxRates), productStore, new ReceiptPrinter());
+        return new CashRegister(new TaxCalculator(taxRates), productStore, new ReceiptPrinter());
     }
 
     @Test
     public void oneItem() {
-        MyApp app = createApp();
+        CashRegister app = createApp();
 
         app.purchase(1, "book", "12.49");
 
@@ -49,7 +49,7 @@ public class ScenarioTest {
 
     @Property
     public void oneItemAnyPriceIsAlwaysTheTotal(BigDecimal price) {
-        MyApp app = createApp();
+        CashRegister app = createApp();
 
         app.purchase(1, "book", price);
 
@@ -64,7 +64,7 @@ public class ScenarioTest {
 
     @Test
     public void oneTaxedItem() {
-        MyApp app = createApp();
+        CashRegister app = createApp();
 
         app.purchase(1, "music CD", "14.99");
 
@@ -79,7 +79,7 @@ public class ScenarioTest {
 
     @Test
     public void oneImportedItem() {
-        MyApp app = createApp();
+        CashRegister app = createApp();
 
         app.purchase(1, "imported book", "10.00");
 
@@ -96,7 +96,7 @@ public class ScenarioTest {
     public void oneImportedItemWithNameVariant(String before, String after) {
         assumeThat(before + after, not(""));
 
-        MyApp app = createApp();
+        CashRegister app = createApp();
 
         app.purchase(1, (before + " imported " + after).trim(), "10.00");
 
@@ -112,7 +112,7 @@ public class ScenarioTest {
     @Property
     public void oneTaxedItemShouldApplyTaxesForTotal(BigDecimal price) {
         ITaxCalculator foo = (_p, m) -> m.add(BigDecimal.ONE);
-        MyApp app = new MyApp(foo, new ProductStoreInMemory(new HashMap<>()), new ReceiptPrinter());
+        CashRegister app = new CashRegister(foo, new ProductStoreInMemory(new HashMap<>()), new ReceiptPrinter());
 
         app.purchase(1, "music CD", price);
 
@@ -130,11 +130,11 @@ public class ScenarioTest {
 
     @Property
     public void differentQuantitySameTotals(@InRange(min = "1", max = "10000") int quantity) {
-        MyApp app = createApp();
+        CashRegister app = createApp();
         app.purchase(quantity, "book", "12.49");
         String[] receiptOne = app.getReceipt();
 
-        MyApp app2 = createApp();
+        CashRegister app2 = createApp();
         IntStream.range(0, quantity)
                  .forEach(_i -> app2.purchase(1, "book", "12.49"));
 
