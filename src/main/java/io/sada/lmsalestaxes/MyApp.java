@@ -6,17 +6,18 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class MyApp {
     private final ITaxCalculator taxCalculator;
     private final ProductStore productStore;
+    private final ReceiptPrinter receipt;
 
     private List<OrderItem> items;
 
-    public MyApp(ITaxCalculator taxCalculator, ProductStore productStore){
+    public MyApp(ITaxCalculator taxCalculator, ProductStore productStore, ReceiptPrinter receipt){
         this.taxCalculator = taxCalculator;
         this.productStore = productStore;
+        this.receipt = receipt;
         this.items = new ArrayList<>();
     }
 
@@ -57,7 +58,7 @@ public class MyApp {
 
         BigDecimal totalPrice = orderLines.stream().map(item -> item.getItemPrice()).reduce(BigDecimal.ZERO, BigDecimal::add);
         BigDecimal totalSalesTaxes = orderLines.stream().map(item -> item.getSalesTaxes()).reduce(BigDecimal.ZERO, BigDecimal::add);
-        String[] strings = generateReceiptLines(orderLines, totalPrice, totalSalesTaxes);
+        String[] strings = receipt.generate(orderLines, totalPrice, totalSalesTaxes);
         return strings;
     }
 
@@ -68,26 +69,7 @@ public class MyApp {
         return new OrderItemPurchased(item, itemPrice, salesTaxes);
     }
 
-    private String[] generateReceiptLines(List<OrderItemPurchased> orderLines, BigDecimal totalPrice, BigDecimal totalSalesTaxes) {
-
-        List<String> itemLines =
-                orderLines
-                    .stream()
-                    .map(item -> {
-                        OrderItem x = item.getItem();
-                        String displayName = x.getIsImported()? "imported " + x.getProduct() : x.getProduct();
-                        return "1 " + displayName + ": " + item.getItemPrice().toString();
-                    })
-                    .collect(Collectors.toList());
-
-        String[] totals = {
-                "Sales Taxes: " + totalSalesTaxes.toString(),
-                "Total: " + totalPrice.toString() };
-
-        return Stream.concat(itemLines.stream(), Stream.of(totals)).toArray(String[]::new);
-    }
-
-    private final class OrderItemPurchased {
+    public final class OrderItemPurchased {
         private final OrderItem item;
         private final BigDecimal itemPrice;
         private final BigDecimal salesTaxes;
