@@ -13,13 +13,15 @@ public class CashRegister {
     private final ITaxCalculator taxCalculator;
     private final ProductStore productStore;
     private final ReceiptPrinter receipt;
+    private final CashRegisterScreen screen;
 
     private List<OrderItem> items;
 
-    public CashRegister(ITaxCalculator taxCalculator, ProductStore productStore, ReceiptPrinter receipt){
+    public CashRegister(ITaxCalculator taxCalculator, ProductStore productStore, ReceiptPrinter receipt, CashRegisterScreen screen){
         this.taxCalculator = taxCalculator;
         this.productStore = productStore;
         this.receipt = receipt;
+        this.screen = screen;
         this.items = new ArrayList<>();
     }
 
@@ -52,6 +54,16 @@ public class CashRegister {
     }
 
     public String[] getReceipt() {
+        this.purchase();
+        return this.getScreen().getLines();
+    }
+
+    private void purchase() {
+        String[] receipt = createReceipt();
+        this.getScreen().show(receipt);
+    }
+
+    private String[] createReceipt() {
         List<ReceiptItem> orderLines =
             this.items
                 .stream()
@@ -60,8 +72,7 @@ public class CashRegister {
 
         BigDecimal totalPrice = orderLines.stream().map(item -> item.getItemPrice()).reduce(BigDecimal.ZERO, BigDecimal::add);
         BigDecimal totalSalesTaxes = orderLines.stream().map(item -> item.getSalesTaxes()).reduce(BigDecimal.ZERO, BigDecimal::add);
-        String[] strings = receipt.generate(orderLines, totalPrice, totalSalesTaxes);
-        return strings;
+        return receipt.generate(orderLines, totalPrice, totalSalesTaxes);
     }
 
     private ReceiptItem toReceiptItem(OrderItem item) {
@@ -71,6 +82,9 @@ public class CashRegister {
         String displayName = item.getIsImported()? "imported " + item.getProduct() : item.getProduct();
         return new ReceiptItem(displayName, itemPrice, salesTaxes);
     }
-}
 
+    public CashRegisterScreen getScreen() {
+        return screen;
+    }
+}
 

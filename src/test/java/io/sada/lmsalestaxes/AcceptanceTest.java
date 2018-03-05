@@ -16,7 +16,8 @@ public class AcceptanceTest {
         ITaxRatesForProduct importDuty = new ImportDutySalesTax(ImportDutySalesTax.IMPORT_DUTY);
 
         ProductStore productStore = new ProductStoreInMemory(new TestDataProductCategories().create());
-        return new CashRegister(new TaxCalculator(basicTaxes, importDuty), productStore, new ReceiptPrinter());
+        CashRegisterScreen screen = new CashRegisterScreenAsLines();
+        return new CashRegister(new TaxCalculator(basicTaxes, importDuty), productStore, new ReceiptPrinter(), screen);
     }
 
     @Test

@@ -29,8 +29,10 @@ public class ScenarioTest {
                         .withProduct("music CD", new SalesTax(10))
                         .create();
 
+        CashRegisterScreen screen = new CashRegisterScreenAsLines();
+
         ProductStore productStore = new ProductStoreInMemory(new TestDataProductCategories().create());
-        return new CashRegister(new TaxCalculator(taxRates), productStore, new ReceiptPrinter());
+        return new CashRegister(new TaxCalculator(taxRates), productStore, new ReceiptPrinter(), screen);
     }
 
     @Test
@@ -113,7 +115,7 @@ public class ScenarioTest {
     @Property
     public void oneTaxedItemShouldApplyTaxesForTotal(BigDecimal price) {
         ITaxCalculator foo = (_p, m) -> m.add(BigDecimal.ONE);
-        CashRegister app = new CashRegister(foo, new ProductStoreInMemory(new HashMap<>()), new ReceiptPrinter());
+        CashRegister app = new CashRegister(foo, new ProductStoreInMemory(new HashMap<>()), new ReceiptPrinter(), new CashRegisterScreenAsLines());
 
         app.include(1, "music CD", price);
 
@@ -153,3 +155,4 @@ public class ScenarioTest {
 
 
 }
+
