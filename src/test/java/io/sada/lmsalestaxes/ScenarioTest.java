@@ -36,13 +36,13 @@ public class ScenarioTest {
         return new CashRegister(new TaxCalculator(taxRates), productStore, new ReceiptPrinter(), screen);
     }
 
-    private CashRegisterScreen createScreen() {
+    private CashRegisterScreenAsLines createScreen() {
         return new CashRegisterScreenAsLines(new ReceiptTextFormatter());
     }
 
     @Test
     public void oneItem() {
-        CashRegisterScreen screen = createScreen();
+        CashRegisterScreenAsLines screen = createScreen();
         CashRegister app = createApp(screen);
 
         app.include(1, "book", "12.49");
@@ -59,7 +59,7 @@ public class ScenarioTest {
 
     @Property
     public void oneItemAnyPriceIsAlwaysTheTotal(BigDecimal price) {
-        CashRegisterScreen screen = createScreen();
+        CashRegisterScreenAsLines screen = createScreen();
         CashRegister app = createApp(screen);
 
         app.include(1, "book", price);
@@ -76,7 +76,7 @@ public class ScenarioTest {
 
     @Test
     public void oneTaxedItem() {
-        CashRegisterScreen screen = createScreen();
+        CashRegisterScreenAsLines screen = createScreen();
         CashRegister app = createApp(screen);
 
         app.include(1, "music CD", "14.99");
@@ -93,7 +93,7 @@ public class ScenarioTest {
 
     @Test
     public void oneImportedItem() {
-        CashRegisterScreen screen = createScreen();
+        CashRegisterScreenAsLines screen = createScreen();
         CashRegister app = createApp(screen);
 
         app.include(1, "imported book", "10.00");
@@ -112,7 +112,7 @@ public class ScenarioTest {
     public void oneImportedItemWithNameVariant(String before, String after) {
         assumeThat(before + after, not(""));
 
-        CashRegisterScreen screen = createScreen();
+        CashRegisterScreenAsLines screen = createScreen();
         CashRegister app = createApp(screen);
 
         app.include(1, (before + " imported " + after).trim(), "10.00");
@@ -150,13 +150,13 @@ public class ScenarioTest {
 
     @Property
     public void differentQuantitySameTotals(@InRange(min = "1", max = "10000") int quantity) {
-        CashRegisterScreen appScreen = createScreen();
+        CashRegisterScreenAsLines appScreen = createScreen();
         CashRegister app = createApp(appScreen);
         app.include(quantity, "book", "12.49");
         app.purchase();
         String[] receiptOne = appScreen.getLines();
 
-        CashRegisterScreen app2Screen = createScreen();
+        CashRegisterScreenAsLines app2Screen = createScreen();
         CashRegister app2 = createApp(app2Screen);
         IntStream.range(0, quantity)
                  .forEach(_i -> app2.include(1, "book", "12.49"));

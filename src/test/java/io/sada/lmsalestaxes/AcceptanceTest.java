@@ -22,13 +22,13 @@ public class AcceptanceTest {
         return new CashRegister(new TaxCalculator(basicTaxes, importDuty), productStore, new ReceiptPrinter(), screen);
     }
 
-    private CashRegisterScreen createScreen() {
+    private CashRegisterScreenAsLines createScreen() {
         return new CashRegisterScreenAsLines(new ReceiptTextFormatter());
     }
 
     @Test
     public void scenario1() {
-        CashRegisterScreen screen = createScreen();
+        CashRegisterScreenAsLines screen = createScreen();
         CashRegister app = createApp(screen);
 
         app.include(1, "book", "12.49");
@@ -49,7 +49,7 @@ public class AcceptanceTest {
 
     @Test
     public void scenario2() {
-        CashRegisterScreen screen = createScreen();
+        CashRegisterScreenAsLines screen = createScreen();
         CashRegister app = createApp(screen);
 
         app.include(1, "imported box of chocolates", "10.00");
@@ -68,7 +68,7 @@ public class AcceptanceTest {
 
     @Test
     public void scenario3() {
-        CashRegisterScreen screen = createScreen();
+        CashRegisterScreenAsLines screen = createScreen();
         CashRegister app = createApp(screen);
 
         app.include(1, "imported bottle of perfume", "27.99");
