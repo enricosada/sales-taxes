@@ -53,12 +53,7 @@ public class CashRegister {
         return new OrderItem(quantity, productName, unitaryPrice, isImported, category);
     }
 
-    public String[] getReceipt() {
-        this.purchase();
-        return this.getScreen().getLines();
-    }
-
-    private void purchase() {
+    public void purchase() {
         String[] receipt = createReceipt();
         this.getScreen().show(receipt);
     }

@@ -28,7 +28,8 @@ public class AcceptanceTest {
         app.include(1, "music CD", "14.99");
         app.include(1, "chocolate bar", "0.85");
 
-        String[] receipt = app.getReceipt();
+        app.purchase();
+        String[] receipt = app.getScreen().getLines();
 
         assertArrayEquals(new String[]{
                 "1 book: 12.49",
@@ -46,7 +47,8 @@ public class AcceptanceTest {
         app.include(1, "imported box of chocolates", "10.00");
         app.include(1, "imported bottle of perfume", "47.50");
 
-        String[] receipt = app.getReceipt();
+        app.purchase();
+        String[] receipt = app.getScreen().getLines();
 
         assertArrayEquals(new String[]{
                 "1 imported box of chocolates: 10.50",
@@ -65,7 +67,8 @@ public class AcceptanceTest {
         app.include(1, "packet of headache pills", "9.75");
         app.include(1, "box of imported chocolates", "11.25");
 
-        String[] receipt = app.getReceipt();
+        app.purchase();
+        String[] receipt = app.getScreen().getLines();
 
         assertArrayEquals(new String[]{
                 "1 imported bottle of perfume: 32.19",

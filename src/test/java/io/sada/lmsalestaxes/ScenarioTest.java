@@ -41,7 +41,8 @@ public class ScenarioTest {
 
         app.include(1, "book", "12.49");
 
-        String[] receipt = app.getReceipt();
+        app.purchase();
+        String[] receipt = app.getScreen().getLines();
 
         assertArrayEquals(new String[]{
                 "1 book: 12.49",
@@ -56,7 +57,8 @@ public class ScenarioTest {
 
         app.include(1, "book", price);
 
-        String[] receipt = app.getReceipt();
+        app.purchase();
+        String[] receipt = app.getScreen().getLines();
 
         assertArrayEquals(new String[]{
                 "1 book: " + price.toString(),
@@ -71,7 +73,8 @@ public class ScenarioTest {
 
         app.include(1, "music CD", "14.99");
 
-        String[] receipt = app.getReceipt();
+        app.purchase();
+        String[] receipt = app.getScreen().getLines();
 
         assertArrayEquals(new String[]{
                 "1 music CD: 16.49",
@@ -86,7 +89,8 @@ public class ScenarioTest {
 
         app.include(1, "imported book", "10.00");
 
-        String[] receipt = app.getReceipt();
+        app.purchase();
+        String[] receipt = app.getScreen().getLines();
 
         assertArrayEquals(new String[]{
                 "1 imported book: 10.00",
@@ -103,7 +107,8 @@ public class ScenarioTest {
 
         app.include(1, (before + " imported " + after).trim(), "10.00");
 
-        String[] receipt = app.getReceipt();
+        app.purchase();
+        String[] receipt = app.getScreen().getLines();
 
         assertArrayEquals(new String[]{
                 "1 imported " + (before + " " + after).trim() + ": 10.00",
@@ -119,7 +124,8 @@ public class ScenarioTest {
 
         app.include(1, "music CD", price);
 
-        String[] receipt = app.getReceipt();
+        app.purchase();
+        String[] receipt = app.getScreen().getLines();
 
         BigDecimal taxes = price.add(BigDecimal.ONE);
         BigDecimal itemPrice = price.add(taxes);
@@ -135,13 +141,15 @@ public class ScenarioTest {
     public void differentQuantitySameTotals(@InRange(min = "1", max = "10000") int quantity) {
         CashRegister app = createApp();
         app.include(quantity, "book", "12.49");
-        String[] receiptOne = app.getReceipt();
+        app.purchase();
+        String[] receiptOne = app.getScreen().getLines();
 
         CashRegister app2 = createApp();
         IntStream.range(0, quantity)
                  .forEach(_i -> app2.include(1, "book", "12.49"));
 
-        String[] receiptSum = app2.getReceipt();
+        app2.purchase();
+        String[] receiptSum = app2.getScreen().getLines();
 
         String[] totalOne = Stream.of(receiptOne).filter(s -> s.startsWith("Total:")).toArray(String[]::new);
         String[] totalSum = Stream.of(receiptSum).filter(s -> s.startsWith("Total:")).toArray(String[]::new);
