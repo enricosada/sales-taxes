@@ -23,7 +23,7 @@ public class BasicSalesTax implements ITaxRatesForProduct {
 
     public SalesTax getForProduct(OrderItem product) {
         ProductCategory cat = product.getCategory();
-        if (Stream.of(exemptions).filter(x -> x.equals(cat)).findAny().isPresent()) {
+        if (Stream.of(exemptions).filter(exception -> exception.equals(cat)).findAny().isPresent()) {
             return SalesTax.NO_TAX;
         }
 
