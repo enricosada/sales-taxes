@@ -78,7 +78,7 @@ public class CashRegister {
         BigDecimal salesTaxes = taxCalculator.getSalesTaxes(item, price);
         BigDecimal itemPrice = price.add(salesTaxes);
         String displayName = item.getIsImported()? "imported " + item.getProduct() : item.getProduct();
-        return new ReceiptItem(displayName, itemPrice, salesTaxes);
+        return new ReceiptItem(item.getQuantity(), displayName, itemPrice, salesTaxes);
     }
 }
 

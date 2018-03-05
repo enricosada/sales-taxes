@@ -10,7 +10,7 @@ public class ReceiptTextFormatter {
         List<String> itemLines =
                         Stream.of(receipt.getOrderLines())
                         .map(item -> {
-                            return "1 " + item.getDisplayName() + ": " + item.getItemPrice().toString();
+                            return item.getQuantity() + " " + item.getDisplayName() + ": " + item.getItemPrice().toString();
                         })
                         .collect(Collectors.toList());
 
