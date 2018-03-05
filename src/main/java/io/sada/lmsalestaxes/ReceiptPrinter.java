@@ -7,7 +7,7 @@ import java.util.stream.Stream;
 
 public class ReceiptPrinter {
 
-    public String[] generate(List<MyApp.OrderItemPurchased> orderLines, BigDecimal totalPrice, BigDecimal totalSalesTaxes) {
+    public String[] generate(List<OrderItemPurchased> orderLines, BigDecimal totalPrice, BigDecimal totalSalesTaxes) {
 
         List<String> itemLines =
                 orderLines
