@@ -2,6 +2,8 @@ package io.sada.lmsalestaxes;
 
 import com.pholser.junit.quickcheck.Property;
 import com.pholser.junit.quickcheck.runner.JUnitQuickcheck;
+import io.sada.lmsalestaxes.store.ProductCategory;
+import io.sada.lmsalestaxes.store.ProductStoreInMemory;
 import org.junit.runner.RunWith;
 
 import java.util.HashMap;

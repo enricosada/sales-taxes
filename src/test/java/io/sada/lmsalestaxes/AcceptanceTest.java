@@ -1,6 +1,8 @@
 package io.sada.lmsalestaxes;
 
 import io.sada.lmsalestaxes.receipt.ReceiptPrinter;
+import io.sada.lmsalestaxes.store.ProductStore;
+import io.sada.lmsalestaxes.store.ProductStoreInMemory;
 import io.sada.lmsalestaxes.tax.BasicSalesTax;
 import io.sada.lmsalestaxes.tax.ITaxRatesForProduct;
 import io.sada.lmsalestaxes.tax.ImportDutySalesTax;

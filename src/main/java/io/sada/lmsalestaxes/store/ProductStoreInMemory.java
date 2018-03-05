@@ -1,4 +1,7 @@
-package io.sada.lmsalestaxes;
+package io.sada.lmsalestaxes.store;
+
+import io.sada.lmsalestaxes.store.ProductCategory;
+import io.sada.lmsalestaxes.store.ProductStore;
 
 import java.util.Map;
 

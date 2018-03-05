@@ -1,5 +1,7 @@
 package io.sada.lmsalestaxes;
 
+import io.sada.lmsalestaxes.store.ProductCategory;
+
 import java.math.BigDecimal;
 
 public final class OrderItem {
