@@ -14,13 +14,21 @@ import static org.junit.Assert.assertArrayEquals;
 
 public class AcceptanceTest {
 
-    private CashRegister createApp() {
+    private CashRegister createApp(CashRegisterScreen screen) {
         ITaxRatesForProduct basicTaxes = new BasicSalesTax(BasicSalesTax.BASIC_TAX, BasicSalesTax.EXEMPTED_CATEGORIES);
         ITaxRatesForProduct importDuty = new ImportDutySalesTax(ImportDutySalesTax.IMPORT_DUTY);
 
         ProductStore productStore = new ProductStoreInMemory(new TestDataProductCategories().create());
-        CashRegisterScreen screen = new CashRegisterScreenAsLines(new ReceiptTextFormatter());
         return new CashRegister(new TaxCalculator(basicTaxes, importDuty), productStore, new ReceiptPrinter(), screen);
+    }
+
+    private CashRegister createApp() {
+        CashRegisterScreen screen = createScreen();
+        return createApp(screen);
+    }
+
+    private CashRegisterScreen createScreen() {
+        return new CashRegisterScreenAsLines(new ReceiptTextFormatter());
     }
 
     @Test

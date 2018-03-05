@@ -25,17 +25,24 @@ import static org.junit.Assume.assumeThat;
 @RunWith(JUnitQuickcheck.class)
 public class ScenarioTest {
 
-    private CashRegister createApp() {
+    private CashRegister createApp(CashRegisterScreen screen) {
 
         ITaxRatesForProduct taxRates =
                 new SalesTaxRatesOnName(SalesTax.NO_TAX)
                         .withProduct("music CD", new SalesTax(10))
                         .create();
 
-        CashRegisterScreen screen = new CashRegisterScreenAsLines(new ReceiptTextFormatter());
-
         ProductStore productStore = new ProductStoreInMemory(new TestDataProductCategories().create());
         return new CashRegister(new TaxCalculator(taxRates), productStore, new ReceiptPrinter(), screen);
+    }
+
+    private CashRegister createApp() {
+        CashRegisterScreen screen = createScreen();
+        return createApp(screen);
+    }
+
+    private CashRegisterScreen createScreen() {
+        return new CashRegisterScreenAsLines(new ReceiptTextFormatter());
     }
 
     @Test
