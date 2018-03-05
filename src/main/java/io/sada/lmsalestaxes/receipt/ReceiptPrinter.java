@@ -1,4 +1,6 @@
-package io.sada.lmsalestaxes;
+package io.sada.lmsalestaxes.receipt;
+
+import io.sada.lmsalestaxes.receipt.ReceiptItem;
 
 import java.math.BigDecimal;
 import java.util.List;

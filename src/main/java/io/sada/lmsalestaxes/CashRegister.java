@@ -1,5 +1,7 @@
 package io.sada.lmsalestaxes;
 
+import io.sada.lmsalestaxes.receipt.ReceiptItem;
+import io.sada.lmsalestaxes.receipt.ReceiptPrinter;
 import io.sada.lmsalestaxes.tax.ITaxCalculator;
 
 import java.math.BigDecimal;
