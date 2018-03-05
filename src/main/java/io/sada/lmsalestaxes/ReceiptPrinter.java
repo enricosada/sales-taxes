@@ -13,9 +13,7 @@ public class ReceiptPrinter {
                 orderLines
                         .stream()
                         .map(item -> {
-                            OrderItem x = item.getItem();
-                            String displayName = x.getIsImported()? "imported " + x.getProduct() : x.getProduct();
-                            return "1 " + displayName + ": " + item.getItemPrice().toString();
+                            return "1 " + item.getDisplayName() + ": " + item.getItemPrice().toString();
                         })
                         .collect(Collectors.toList());
 

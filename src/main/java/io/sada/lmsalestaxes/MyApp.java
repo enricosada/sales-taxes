@@ -66,7 +66,8 @@ public class MyApp {
         BigDecimal price = item.getUnitaryPrice().multiply(new BigDecimal(item.getQuantity()));
         BigDecimal salesTaxes = taxCalculator.getSalesTaxes(item, price);
         BigDecimal itemPrice = price.add(salesTaxes);
-        return new OrderItemPurchased(item, itemPrice, salesTaxes);
+        String displayName = item.getIsImported()? "imported " + item.getProduct() : item.getProduct();
+        return new OrderItemPurchased(item, displayName, itemPrice, salesTaxes);
     }
 }
 

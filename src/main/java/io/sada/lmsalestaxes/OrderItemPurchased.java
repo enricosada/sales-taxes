@@ -4,12 +4,14 @@ import java.math.BigDecimal;
 
 public final class OrderItemPurchased {
     private final OrderItem item;
+    private final String displayName;
     private final BigDecimal itemPrice;
     private final BigDecimal salesTaxes;
 
-    public OrderItemPurchased(OrderItem item, BigDecimal itemPrice, BigDecimal salesTaxes) {
+    public OrderItemPurchased(OrderItem item, String displayName, BigDecimal itemPrice, BigDecimal salesTaxes) {
 
         this.item = item;
+        this.displayName = displayName;
         this.itemPrice = itemPrice;
         this.salesTaxes = salesTaxes;
     }
@@ -25,4 +27,6 @@ public final class OrderItemPurchased {
     public BigDecimal getSalesTaxes() {
         return salesTaxes;
     }
+
+    public String getDisplayName() { return displayName; }
 }
