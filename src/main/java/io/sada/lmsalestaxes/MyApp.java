@@ -50,7 +50,7 @@ public class MyApp {
     }
 
     public String[] getReceipt() {
-        List<OrderItemPurchased> orderLines =
+        List<ReceiptItem> orderLines =
             this.items
                 .stream()
                 .map(this::getOrderItemPurchased)
@@ -62,12 +62,12 @@ public class MyApp {
         return strings;
     }
 
-    private OrderItemPurchased getOrderItemPurchased(OrderItem item) {
+    private ReceiptItem getOrderItemPurchased(OrderItem item) {
         BigDecimal price = item.getUnitaryPrice().multiply(new BigDecimal(item.getQuantity()));
         BigDecimal salesTaxes = taxCalculator.getSalesTaxes(item, price);
         BigDecimal itemPrice = price.add(salesTaxes);
         String displayName = item.getIsImported()? "imported " + item.getProduct() : item.getProduct();
-        return new OrderItemPurchased(item, displayName, itemPrice, salesTaxes);
+        return new ReceiptItem(item, displayName, itemPrice, salesTaxes);
     }
 }
 
