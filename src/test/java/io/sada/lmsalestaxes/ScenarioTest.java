@@ -1,6 +1,7 @@
 package io.sada.lmsalestaxes;
 
 import com.pholser.junit.quickcheck.Property;
+import com.pholser.junit.quickcheck.generator.InRange;
 import com.pholser.junit.quickcheck.runner.JUnitQuickcheck;
 import io.sada.lmsalestaxes.tax.*;
 import org.junit.Test;
@@ -8,6 +9,8 @@ import org.junit.runner.RunWith;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.assertArrayEquals;
@@ -124,4 +127,28 @@ public class ScenarioTest {
                 "Total: " + itemPrice.toString()
         }, receipt);
     }
+
+    @Property
+    public void differentQuantitySameTotals(@InRange(min = "1", max = "10000") int quantity) {
+        MyApp app = createApp();
+        app.purchase(quantity, "book", "12.49");
+        String[] receiptOne = app.getReceipt();
+
+        MyApp app2 = createApp();
+        IntStream.range(0, quantity)
+                 .forEach(_i -> app2.purchase(1, "book", "12.49"));
+
+        String[] receiptSum = app2.getReceipt();
+
+        String[] totalOne = Stream.of(receiptOne).filter(s -> s.startsWith("Total:")).toArray(String[]::new);
+        String[] totalSum = Stream.of(receiptSum).filter(s -> s.startsWith("Total:")).toArray(String[]::new);
+
+        String[] salesOne = Stream.of(receiptOne).filter(s -> s.startsWith("Sales Taxes:")).toArray(String[]::new);
+        String[] salesSum = Stream.of(receiptSum).filter(s -> s.startsWith("Sales Taxes:")).toArray(String[]::new);
+
+        assertArrayEquals(salesOne, salesSum);
+        assertArrayEquals(totalOne, totalSum);
+    }
+
+
 }
