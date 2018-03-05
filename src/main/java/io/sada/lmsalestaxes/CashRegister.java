@@ -23,11 +23,11 @@ public class CashRegister {
         this.items = new ArrayList<>();
     }
 
-    public void purchase(int quantity, String displayName, String unitaryPrice) {
-        this.purchase(quantity, displayName, new BigDecimal(unitaryPrice));
+    public void include(int quantity, String displayName, String unitaryPrice) {
+        this.include(quantity, displayName, new BigDecimal(unitaryPrice));
     }
 
-    public void purchase(int quantity, String displayName, BigDecimal unitaryPrice) {
+    public void include(int quantity, String displayName, BigDecimal unitaryPrice) {
         OrderItem item = findItem(quantity, displayName, unitaryPrice);
 
         this.items.add(item);

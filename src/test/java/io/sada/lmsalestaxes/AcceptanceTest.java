@@ -23,9 +23,9 @@ public class AcceptanceTest {
     public void scenario1() {
         CashRegister app = createApp();
 
-        app.purchase(1, "book", "12.49");
-        app.purchase(1, "music CD", "14.99");
-        app.purchase(1, "chocolate bar", "0.85");
+        app.include(1, "book", "12.49");
+        app.include(1, "music CD", "14.99");
+        app.include(1, "chocolate bar", "0.85");
 
         String[] receipt = app.getReceipt();
 
@@ -42,8 +42,8 @@ public class AcceptanceTest {
     public void scenario2() {
         CashRegister app = createApp();
 
-        app.purchase(1, "imported box of chocolates", "10.00");
-        app.purchase(1, "imported bottle of perfume", "47.50");
+        app.include(1, "imported box of chocolates", "10.00");
+        app.include(1, "imported bottle of perfume", "47.50");
 
         String[] receipt = app.getReceipt();
 
@@ -59,10 +59,10 @@ public class AcceptanceTest {
     public void scenario3() {
         CashRegister app = createApp();
 
-        app.purchase(1, "imported bottle of perfume", "27.99");
-        app.purchase(1, "bottle of perfume", "18.99");
-        app.purchase(1, "packet of headache pills", "9.75");
-        app.purchase(1, "box of imported chocolates", "11.25");
+        app.include(1, "imported bottle of perfume", "27.99");
+        app.include(1, "bottle of perfume", "18.99");
+        app.include(1, "packet of headache pills", "9.75");
+        app.include(1, "box of imported chocolates", "11.25");
 
         String[] receipt = app.getReceipt();
 

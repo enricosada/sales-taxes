@@ -37,7 +37,7 @@ public class ScenarioTest {
     public void oneItem() {
         CashRegister app = createApp();
 
-        app.purchase(1, "book", "12.49");
+        app.include(1, "book", "12.49");
 
         String[] receipt = app.getReceipt();
 
@@ -52,7 +52,7 @@ public class ScenarioTest {
     public void oneItemAnyPriceIsAlwaysTheTotal(BigDecimal price) {
         CashRegister app = createApp();
 
-        app.purchase(1, "book", price);
+        app.include(1, "book", price);
 
         String[] receipt = app.getReceipt();
 
@@ -67,7 +67,7 @@ public class ScenarioTest {
     public void oneTaxedItem() {
         CashRegister app = createApp();
 
-        app.purchase(1, "music CD", "14.99");
+        app.include(1, "music CD", "14.99");
 
         String[] receipt = app.getReceipt();
 
@@ -82,7 +82,7 @@ public class ScenarioTest {
     public void oneImportedItem() {
         CashRegister app = createApp();
 
-        app.purchase(1, "imported book", "10.00");
+        app.include(1, "imported book", "10.00");
 
         String[] receipt = app.getReceipt();
 
@@ -99,7 +99,7 @@ public class ScenarioTest {
 
         CashRegister app = createApp();
 
-        app.purchase(1, (before + " imported " + after).trim(), "10.00");
+        app.include(1, (before + " imported " + after).trim(), "10.00");
 
         String[] receipt = app.getReceipt();
 
@@ -115,7 +115,7 @@ public class ScenarioTest {
         ITaxCalculator foo = (_p, m) -> m.add(BigDecimal.ONE);
         CashRegister app = new CashRegister(foo, new ProductStoreInMemory(new HashMap<>()), new ReceiptPrinter());
 
-        app.purchase(1, "music CD", price);
+        app.include(1, "music CD", price);
 
         String[] receipt = app.getReceipt();
 
@@ -132,12 +132,12 @@ public class ScenarioTest {
     @Property
     public void differentQuantitySameTotals(@InRange(min = "1", max = "10000") int quantity) {
         CashRegister app = createApp();
-        app.purchase(quantity, "book", "12.49");
+        app.include(quantity, "book", "12.49");
         String[] receiptOne = app.getReceipt();
 
         CashRegister app2 = createApp();
         IntStream.range(0, quantity)
-                 .forEach(_i -> app2.purchase(1, "book", "12.49"));
+                 .forEach(_i -> app2.include(1, "book", "12.49"));
 
         String[] receiptSum = app2.getReceipt();
 
